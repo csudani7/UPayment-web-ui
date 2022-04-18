@@ -1,31 +1,55 @@
 import React, { Fragment } from 'react';
+import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { Listbox, Transition } from '@headlessui/react';
 import { AiOutlineCheck, AiOutlineDown } from 'react-icons/ai';
-import { useGetAllCategory, useCreateProduct } from '../../hooks';
-import { GetAllCategoryResponse } from '../../services';
 import { useHistory } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { GetAllCategoryResponse } from '../../services';
+import { useGetAllCategory, useCreateProduct } from '../../hooks';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
+const schema = yup
+  .object({
+    category: yup.string().required(),
+    name: yup.string().required(),
+    description: yup.string().required(),
+    avatar: yup.string().required(),
+    price: yup.number().required(),
+  })
+  .required();
+
 function AddProduct() {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
+    trigger,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: '',
+      description: '',
+      avatar: '',
+      category: '',
+      price: 0,
+    },
+    resolver: yupResolver(schema),
+  });
   const history = useHistory();
   const { data: listOfCategoy }: any = useGetAllCategory();
   const { mutate } = useCreateProduct();
-  const [selected, setSelected] = React.useState({ id: 0, name: 'Categories' });
 
   const onSubmit = (data: any) => {
     const body = {
       name: data.name,
-      price: data.price,
-      category: selected.name,
+      price: Number(data.price),
+      category: data.category,
       description: data.description,
       avatar: data.avatar,
       developerEmail: 'csudani7@gmail.com',
@@ -51,7 +75,7 @@ function AddProduct() {
                   id="name"
                   type="text"
                   placeholder="Product name"
-                  {...register('name', { required: true })}
+                  {...register('name')}
                   className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
@@ -64,7 +88,7 @@ function AddProduct() {
                 <textarea
                   id="description"
                   placeholder="Desciption"
-                  {...register('description', { required: true })}
+                  {...register('description')}
                   className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
@@ -78,7 +102,7 @@ function AddProduct() {
                   id="avatar"
                   type="url"
                   placeholder="Product Image URL"
-                  {...register('avatar', { required: true })}
+                  {...register('avatar')}
                   className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
@@ -86,12 +110,21 @@ function AddProduct() {
                 <span className="text-xs text-red-700">*Product image URL is required</span>
               )}
             </div>
-            <Listbox value={selected} onChange={setSelected}>
+            <Listbox
+              value={getValues('category')}
+              onChange={(e: any) => {
+                window.console.log(e);
+                setValue('category', e);
+                trigger('category');
+              }}
+            >
               {({ open }) => (
                 <>
                   <div className="relative w-full mt-1">
                     <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border border-gray-300 rounded-md shadow-sm cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <span className="block truncate">{selected.name}</span>
+                      <span className="block truncate">
+                        {getValues('category') ? getValues('category') : 'Categories'}
+                      </span>
                       <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                         <AiOutlineDown className="w-5 h-5 text-gray-400" aria-hidden="true" />
                       </span>
@@ -113,7 +146,7 @@ function AddProduct() {
                                 'cursor-default select-none relative py-2 pl-3 pr-9',
                               )
                             }
-                            value={category}
+                            value={category.name}
                           >
                             {({ selected, active }) => (
                               <>
@@ -146,6 +179,8 @@ function AddProduct() {
                 </>
               )}
             </Listbox>
+            {errors.category && <span className="text-xs text-red-700">*Category is required</span>}
+
             <div>
               <div className="mt-1">
                 <input
