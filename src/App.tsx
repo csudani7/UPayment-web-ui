@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 
 import './styles/global.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from './component/layout';
 import Home from './component/home';
@@ -20,16 +21,16 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Switch>
-        <ToastContainer />
-        <Layout>
-          <>
+      <Layout>
+        <>
+          <ToastContainer position="top-center" />
+          <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/add-product" component={AddProduct} />
             <Route path="/product-details/:id" component={ProductDetails} />
-          </>
-        </Layout>
-      </Switch>
+          </Switch>
+        </>
+      </Layout>
     </QueryClientProvider>
   );
 }

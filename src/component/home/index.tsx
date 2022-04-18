@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
-import { AiOutlinePlus, AiOutlineCheck, AiOutlineDown } from 'react-icons/ai';
-import { Listbox, Transition } from '@headlessui/react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Listbox, Transition } from '@headlessui/react';
+import { AiOutlinePlus, AiOutlineCheck, AiOutlineDown } from 'react-icons/ai';
+
 import { useGetAllCategory, useGetAllProducts } from '../../hooks';
 import { GetAllCategoryResponse, GetAllProductResponse } from '../../services';
 
@@ -12,22 +13,45 @@ function classNames(...classes: string[]) {
 function HomePage() {
   const router = useHistory();
   const { data: listOfCategoy }: any = useGetAllCategory();
-  const { data: listOfProducts }: any = useGetAllProducts();
+  const { data: listOfProducts, hello }: any = useGetAllProducts();
   const [selected, setSelected] = React.useState({ id: 0, name: 'Categories' });
+  const [inputValue, setInputValue] = React.useState('');
+
+  const filterdData = React.useMemo(() => {
+    let products = listOfProducts && [...listOfProducts];
+    if (inputValue) {
+      products = products.filter((item: GetAllProductResponse) =>
+        item.name.toLowerCase().includes(inputValue.toLowerCase()),
+      );
+    }
+    if (selected.name !== 'Categories') {
+      products = products.filter((item: GetAllProductResponse) => item.category === selected.name);
+    }
+    return products;
+  }, [inputValue, selected, listOfProducts]);
 
   return (
     <div className="py-4">
       <div className="flex flex-col items-end justify-end md:px-4 md:flex-row xl:px-16">
         <div className="mt-1 mr-2">
           <input
-            type="email"
-            name="email"
-            id="email"
+            type="text"
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+            value={inputValue}
+            name="name"
+            id="name"
             className="block border-gray-300 rounded-md shadow-sm w-72 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Apple watch, Samsung S21, Mackbook..."
           />
         </div>
-        <Listbox value={selected} onChange={setSelected}>
+        <Listbox
+          value={selected}
+          onChange={(e) => {
+            setSelected((prev) => (prev.name === e.name ? { id: 0, name: 'Categories' } : e));
+          }}
+        >
           {({ open }) => (
             <>
               <div className="relative mt-1 w-44">
@@ -39,7 +63,7 @@ function HomePage() {
                 </Listbox.Button>
                 <Transition
                   show={open}
-                  as={Fragment}
+                  as={React.Fragment}
                   leave="transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
@@ -91,9 +115,14 @@ function HomePage() {
 
       <div className="bg-white">
         <div className="max-w-2xl px-6 py-12 mx-auto md:py-12 lg:max-w-7xl lg:px-8">
-          <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Best Products</h2>
+          {filterdData?.length !== 0 && (
+            <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Best Products</h2>
+          )}
+          {filterdData?.length === 0 && (
+            <p className="text-center text-lg text-gray-900">No items found!</p>
+          )}
           <div className="grid grid-cols-1 mt-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {listOfProducts?.map((product: GetAllProductResponse, index: number) => (
+            {filterdData?.map((product: GetAllProductResponse, index: number) => (
               <div key={index} className="relative group">
                 <div className="w-full overflow-hidden bg-gray-200 rounded-md min-h-80 aspect-w-1 aspect-h-1 group-hover:opacity-75 lg:h-80 lg:aspect-none">
                   <img
