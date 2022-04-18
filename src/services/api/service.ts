@@ -1,5 +1,5 @@
 import Axios, { AxiosResponse } from 'axios';
-import { GetAllCategoryResponse } from './interface';
+import { GetAllCategoryResponse, GetAllProductResponse } from './interface';
 
 const baseAPIUrl = process.env.REACT_APP_API_ENDPOINT;
 const axios = Axios.create({
@@ -8,3 +8,9 @@ const axios = Axios.create({
 
 export const getAllProductCategory = () =>
   axios.get<null, AxiosResponse<[GetAllCategoryResponse]>>('/case-study/categories/');
+
+export const getAllProducts = () =>
+  axios.get<null, AxiosResponse<[GetAllProductResponse]>>('/case-study/products/');
+
+export const getProductDetails = (id: string) =>
+  axios.get<null, AxiosResponse<GetAllProductResponse>>(`/case-study/products/${id}`);

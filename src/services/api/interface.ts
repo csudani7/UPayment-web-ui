@@ -9,3 +9,14 @@ export interface GetAllCategoryResponse {
   name?: string;
   createdAt?: string;
 }
+
+export interface GetAllProductResponse {
+  id: string;
+  name: string;
+  createdAt: string;
+  avatar: string;
+  developerEmail: string;
+  price: string;
+  description: string;
+  category: string;
+}

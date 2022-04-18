@@ -1,52 +1,37 @@
-const product = {
-  name: 'Everyday Ruck Snack',
-  href: '#',
-  price: '$220',
-  description:
-    "Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure. Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.",
-  imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-04-featured-product-shot.jpg',
-  imageAlt: 'Model wearing light green backpack with black canvas straps and front zipper pouch.',
-  breadcrumbs: [
-    { id: 1, name: 'Travel', href: '#' },
-    { id: 2, name: 'Bags', href: '#' },
-  ],
-  sizes: [
-    { name: '18L', description: 'Perfect for a reasonable amount of snacks.' },
-    { name: '20L', description: 'Enough room for a serious amount of snacks.' },
-  ],
-};
+import React from 'react';
+import { useGetProductDetails } from '../../hooks';
 
-function ProductDetails() {
+function ProductDetails(props: { match: { params: { id: string } } }) {
+  const id = props?.match?.params?.id;
+  const { data: productDetails }: any = useGetProductDetails(id);
+  window.console.log(productDetails, 'productDetails');
+
   return (
     <div className="bg-white">
       <div className="max-w-2xl px-4 py-16 mx-auto sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
         <div className="lg:max-w-lg lg:self-end">
           <img
-            src={product.imageSrc}
-            alt={product.imageAlt}
+            src={productDetails?.avatar}
+            alt={'product-detail-image'}
             className="object-cover object-center w-full h-full"
           />
         </div>
-
         <div className="mt-10 lg:mt-0 lg:col-start-2 lg:row-span-2">
           <div className="overflow-hidden rounded-lg aspect-w-1 aspect-h-1">
             <div className="mt-4">
               <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                {product.name}
+                {productDetails?.name}
               </h1>
             </div>
-
             <section aria-labelledby="information-heading" className="mt-4">
               <h2 id="information-heading" className="sr-only">
                 Product information
               </h2>
-
               <div className="flex items-center">
-                <p className="text-lg text-gray-900 sm:text-xl">{product.price}</p>
+                <p className="text-lg text-gray-900 sm:text-xl">{productDetails?.price}</p>
               </div>
-
               <div className="mt-4 space-y-6">
-                <p className="text-base text-gray-500">{product.description}</p>
+                <p className="text-base text-gray-500">{productDetails?.description}</p>
               </div>
             </section>
           </div>
