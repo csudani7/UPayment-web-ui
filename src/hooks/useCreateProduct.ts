@@ -1,13 +1,14 @@
 import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
 import { saveProduct } from '../services';
 
 export default function useCreateProduct() {
   return useMutation((data: any) => saveProduct(data), {
     onSuccess: () => {
-      window.console.log('saveProduct successfully');
+      toast.success('Product Saved successfully');
     },
     onError: () => {
-      window.console.log('saveProduct erroer');
+      toast.error('Something went wrong!');
     },
   });
 }

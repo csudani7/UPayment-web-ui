@@ -1,5 +1,6 @@
 import { Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
 
 import './styles/global.css';
 
@@ -20,6 +21,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Switch>
+        <ToastContainer />
         <Layout>
           <>
             <Route exact path="/" component={Home} />
