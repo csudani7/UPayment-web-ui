@@ -13,7 +13,7 @@ function classNames(...classes: string[]) {
 function HomePage() {
   const router = useHistory();
   const { data: listOfCategoy }: any = useGetAllCategory();
-  const { data: listOfProducts, hello }: any = useGetAllProducts();
+  const { data: listOfProducts }: any = useGetAllProducts();
   const [selected, setSelected] = React.useState({ id: 0, name: 'Categories' });
   const [inputValue, setInputValue] = React.useState('');
 
@@ -119,7 +119,7 @@ function HomePage() {
             <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">Best Products</h2>
           )}
           {filterdData?.length === 0 && (
-            <p className="text-center text-lg text-gray-900">No items found!</p>
+            <p className="text-lg text-center text-gray-900">No items found!</p>
           )}
           <div className="grid grid-cols-1 mt-6 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {filterdData?.map((product: GetAllProductResponse, index: number) => (

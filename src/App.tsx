@@ -6,9 +6,9 @@ import './styles/global.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from './component/layout';
-import Home from './component/home';
-import AddProduct from './component/add-product';
-import ProductDetails from './component/product-details';
+import Home from './pages/home';
+import AddProduct from './pages/add-product';
+import ProductDetails from './pages/product-details';
 
 const queryClient = new QueryClient({
   defaultOptions: {
