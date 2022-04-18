@@ -3,6 +3,8 @@ import { PlusSmIcon as PlusSmIconOutline } from '@heroicons/react/outline';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { useHistory } from 'react-router-dom';
+import useGetAllCategory from '../../hooks/useGetAllCategory';
+import { GetAllCategoryResponse } from '../../services';
 
 const products = [
   {
@@ -78,18 +80,6 @@ const products = [
     color: 'Black',
   },
 ];
-const people = [
-  { id: 1, name: 'Wade Cooper' },
-  { id: 2, name: 'Arlene Mccoy' },
-  { id: 3, name: 'Devon Webb' },
-  { id: 4, name: 'Tom Cook' },
-  { id: 5, name: 'Tanya Fox' },
-  { id: 6, name: 'Hellen Schmidt' },
-  { id: 7, name: 'Caroline Schultz' },
-  { id: 8, name: 'Mason Heaney' },
-  { id: 9, name: 'Claudie Smitham' },
-  { id: 10, name: 'Emil Schaefer' },
-];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -97,7 +87,8 @@ function classNames(...classes: string[]) {
 
 function HomePage() {
   const router = useHistory();
-  const [selected, setSelected] = React.useState(people[3]);
+  const { data: listOfCategoy }: any = useGetAllCategory();
+  const [selected, setSelected] = React.useState({ id: 0, name: 'All' });
 
   return (
     <div className="py-4">
@@ -129,7 +120,7 @@ function HomePage() {
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                    {people.map((person) => (
+                    {listOfCategoy.map((person: GetAllCategoryResponse) => (
                       <Listbox.Option
                         key={person.id}
                         className={({ active }) =>
