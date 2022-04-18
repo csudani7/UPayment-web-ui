@@ -1,5 +1,3 @@
-declare namespace Home{
-    export interface Iprops{
-              
-    }
+declare namespace Home {
+  export interface Iprops {}
 }

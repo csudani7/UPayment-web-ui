@@ -1,5 +1,3 @@
-declare namespace AddProduct{
-    export interface Iprops{
-              
-    }
+declare namespace AddProduct {
+  export interface Iprops {}
 }
