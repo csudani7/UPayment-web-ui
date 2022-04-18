@@ -14,3 +14,6 @@ export const getAllProducts = () =>
 
 export const getProductDetails = (id: string) =>
   axios.get<null, AxiosResponse<GetAllProductResponse>>(`/case-study/products/${id}`);
+
+export const saveProduct = (body: any) =>
+  axios.post<null, AxiosResponse<any>>('/case-study/products', body);

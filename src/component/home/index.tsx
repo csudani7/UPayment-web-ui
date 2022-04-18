@@ -45,16 +45,16 @@ function HomePage() {
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                    {listOfCategoy?.map((person: GetAllCategoryResponse) => (
+                    {listOfCategoy?.map((category: GetAllCategoryResponse) => (
                       <Listbox.Option
-                        key={person.id}
+                        key={category.id}
                         className={({ active }) =>
                           classNames(
                             active ? 'text-white bg-indigo-600' : 'text-gray-900',
                             'cursor-default select-none relative py-2 pl-3 pr-9',
                           )
                         }
-                        value={person}
+                        value={category}
                       >
                         {({ selected, active }) => (
                           <>
@@ -64,7 +64,7 @@ function HomePage() {
                                 'block truncate',
                               )}
                             >
-                              {person.name}
+                              {category.name}
                             </span>
 
                             {selected ? (
