@@ -1,10 +1,14 @@
 import React from 'react';
+import Loader from '../../component/Loader';
 import { useGetProductDetails } from '../../hooks';
 
 function ProductDetails(props: { match: { params: { id: string } } }) {
   const id = props?.match?.params?.id;
-  const { data: productDetails }: any = useGetProductDetails(id);
-  window.console.log(productDetails, 'productDetails');
+  const { data: productDetails, isLoading }: any = useGetProductDetails(id);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="bg-white">

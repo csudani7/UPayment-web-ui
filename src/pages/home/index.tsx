@@ -5,6 +5,7 @@ import { AiOutlinePlus, AiOutlineCheck, AiOutlineDown } from 'react-icons/ai';
 
 import { useGetAllCategory, useGetAllProducts } from '../../hooks';
 import { GetAllCategoryResponse, GetAllProductResponse } from '../../services';
+import Loader from '../../component/Loader';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -13,7 +14,7 @@ function classNames(...classes: string[]) {
 function HomePage() {
   const router = useHistory();
   const { data: listOfCategoy }: any = useGetAllCategory();
-  const { data: listOfProducts }: any = useGetAllProducts();
+  const { data: listOfProducts, isLoading }: any = useGetAllProducts();
   const [selected, setSelected] = React.useState({ id: 0, name: 'Categories' });
   const [inputValue, setInputValue] = React.useState('');
 
@@ -29,6 +30,10 @@ function HomePage() {
     }
     return products;
   }, [inputValue, selected, listOfProducts]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="py-4">
