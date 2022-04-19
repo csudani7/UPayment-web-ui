@@ -1,3 +1,4 @@
+// #mention all types related to API services
 export interface ApiCommonResponse {
   status?: string;
   message?: string;

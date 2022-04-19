@@ -1,10 +1,13 @@
+// #global import
 import { Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 
+// #css import
 import './styles/global.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+// #local import
 import Layout from './component/layout';
 import Home from './pages/home';
 import AddProduct from './pages/add-product';

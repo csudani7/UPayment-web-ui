@@ -1,5 +1,8 @@
+// #global import
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+
+// #Local import
 import { Layout } from './Layout';
 
 const PageLayout = ({ children }: Layout.Iprops) => {
@@ -7,6 +10,7 @@ const PageLayout = ({ children }: Layout.Iprops) => {
 
   return (
     <div>
+      {/* Page Header */}
       <header className="w-full bg-indigo-600">
         <nav className="px-4 mx-auto sm:px-6 xl:px-16" aria-label="Top">
           <div className="flex items-center justify-between w-full py-6 border-b border-indigo-500 lg:border-none">
@@ -19,6 +23,7 @@ const PageLayout = ({ children }: Layout.Iprops) => {
           </div>
         </nav>
       </header>
+      {/* Page MainContainer */}
       {children}
     </div>
   );
